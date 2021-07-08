@@ -74,6 +74,10 @@ Flash to device:
 idf.py -p /dev/ttyUSB0 flash
 ```
 
+Clean the project before using it in VS Code:
+```
+idf.py clean
+```
 
 ### Install VS Code
 
@@ -108,15 +112,19 @@ code
 
 Launch VSCode Quick Open (<kbd>Ctrl</kbd>+<kbd>P</kbd>) and then paste the following command and press enter
 
-    ext install esp-idf-extension
+`ext install esp-idf-extension`
 
 Click "install".
 
 Important: Next open folder "~/esp/hello_world" (otherwise extension configuration will hang)
 
-Open (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and type [configure esp-idf extension]. After, choose the ESP-IDF: Configure ESP-IDF extension option.
+Open (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and type [configure esp-idf extension]. After, choose the "ESP-IDF: Configure ESP-IDF extension" option.
 
 Then choose: Use existing setup
+
+Now open input (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and type [esp-idf add folder] and choose "ESP-IDF: Add vscode configuration folder" to get rid some of the underlined errors
+
+Then build target by "ESP-IDF Build" button on the blue taskbar (lower part of the window).
 
 # Notes
 
