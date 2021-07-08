@@ -57,7 +57,9 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
     vb.memory = "2048"
     vb.customize ["modifyvm", :id, "--vram", "32"]
-    # vb.customize ["storageattach ", :id, "--storagectl ", "IDE", "--port", "0", "--device", "1", "--type", "dvddrive", "--medium", "~/.config/VirtualBox/VBoxGuestAdditions_6.1.10.iso"]
+
+#   vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", "0", "--device", "0", "--type", "dvddrive", "--medium", "/home/user/.config/VirtualBox/VBoxGuestAdditions_6.1.16.iso"]
+
   end
   #
   # View the documentation for the provider you are using for more

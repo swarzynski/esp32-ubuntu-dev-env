@@ -1,21 +1,20 @@
-# DataLogger
+# ESP32 developer environment
+
+## Vagrant
+
+Vagrant machine password: vagrant
+
 
 ## Install developer environment on Ubuntu 20.04
+
+Source of below instructions: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/
 
 ### Prerequisities
 
 ```
-sudo apt -y install git wget flex bison gperf cmake ninja-build ccache libffi-dev libssl-dev dfu-util
-sudo apt -y install python3 python3-pip python3-setuptools python3-venv
+sudo apt -y install git wget flex bison gperf cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+sudo apt -y install python3 python3-pip python3-setuptools
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-```
-
-Open Terminal, and run the following commands:
-
-```
-mkdir -p ~/esp
-cd ~/esp
-git clone --recursive https://github.com/espressif/esp-idf.git
 ```
 
 Execute:
@@ -24,6 +23,13 @@ Execute:
 
 and after this log-out and log-in user.
 
+Open Terminal, and run the following commands:
+
+```
+mkdir -p ~/esp
+cd ~/esp
+git clone --recursive https://github.com/espressif/esp-idf.git
+```
 
 ```
 cd ~/esp/esp-idf
@@ -34,6 +40,10 @@ In the terminal where you are going to use ESP-IDF, run:
 
 ```
 . $HOME/esp/esp-idf/export.sh
+```
+
+```
+python -m pip install --upgrade pip
 ```
 
 ```
@@ -48,39 +58,53 @@ cp -r $IDF_PATH/examples/get-started/hello_world .
 ```
 cd ~/esp/hello_world
 idf.py set-target esp32s2
-idf.py menuconfig
 ```
 
 ```
+idf.py menuconfig
+```
+
+Build binary:
+```
 idf.py build
+```
+
+Flash to device:
+```
 idf.py -p /dev/ttyUSB0 flash
 ```
 
 
-
-
 ### Install VS Code
 
-`sudo snap install code --classic`
+Source of instructions: https://code.visualstudio.com/docs/setup/linux
 
-
-#### Bugfix
-
-It seems that to successfully install ESP extension you need to run:
-
-`pip install psutil requests typing xmlrunner`
-
-
-Optional:
 ```
-pip install pyserial future pyparsing pyelftools gdbgui pygdbmi kconfiglib reedsolo bitstring ecdsa
+sudo apt -y install apt-transport-https
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+rm -f packages.microsoft.gpg
+
+sudo apt update
+sudo apt install code # or code-insiders
 ```
 
+### Install VS Code ESP extension
 
+Source of instructions:
+https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md
 
-otherwise will be errors.
+https://github.com/espressif/vscode-esp-idf-extension/blob/master/README.md#Prerequisites
 
-#### Install and configure ESP extension
+https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/SETUP.md
+
+Open terminal and run:
+
+```
+get_idf
+code
+```
 
 Launch VSCode Quick Open (<kbd>Ctrl</kbd>+<kbd>P</kbd>) and then paste the following command and press enter
 
@@ -88,13 +112,19 @@ Launch VSCode Quick Open (<kbd>Ctrl</kbd>+<kbd>P</kbd>) and then paste the follo
 
 Click "install".
 
-Then I suppose these steps:
-https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/ONBOARDING.md#directly-modify-settingsjson
+Important: Next open folder "~/esp/hello_world" (otherwise extension configuration will hang)
+
+Open (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and type [configure esp-idf extension]. After, choose the ESP-IDF: Configure ESP-IDF extension option.
+
+Then choose: Use existing setup
+
+# Notes
 
 ```
-.:/usr/bin:/home/adrian/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin:/home/adrian/.espressif/tools/xtensa-esp32s2-elf/esp-2020r3-8.4.0/xtensa-esp32s2-elf/bin:/home/adrian/.espressif/tools/esp32ulp-elf/2.28.51-esp-20191205/esp32ulp-elf-binutils/bin:/home/adrian/.espressif/tools/esp32s2ulp-elf/2.28.51-esp-20191205/esp32s2ulp-elf-binutils/bin:/home/adrian/.espressif/tools/openocd-esp32/v0.10.0-esp32-20200709/openocd-esp32/bin:/home/adrian/.espressif/tools/xtensa-esp32s3-elf/esp-2020r3-8.4.0/xtensa-esp32s3-elf/bin/
-```
-
-```
-/home/adrian/.espressif/tools/openocd-esp32/v0.10.0-esp32-20200709/openocd-esp32/share/openocd/scripts
+Installing collected packages: filelock, distlib, appdirs, virtualenv
+  WARNING: The script virtualenv is installed in '/home/vagrant/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed appdirs-1.4.4 distlib-0.3.2 filelock-3.0.12 virtualenv-20.4.7
+WARNING: You are using pip version 20.2.4; however, version 21.1.3 is available.
+You should consider upgrading via the '/usr/bin/python3 -m pip install --upgrade pip' command.
 ```
